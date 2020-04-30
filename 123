@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="RelationshipCapture123" name="123" isExecutable="true">
+    <startEvent id="startEvent1" name="start " flowable:formFieldValidation="true"></startEvent>
+    <userTask id="NewRelationshipRequest" name="Initiate change request" flowable:formFieldValidation="true"></userTask>
+    <userTask id="CreateRelationshipTask" name="create  bulk request" flowable:formFieldValidation="true"></userTask>
+    <userTask id="SpawnRelationiTask" name="Parallel request Task" flowable:formFieldValidation="true">
+      <multiInstanceLoopCharacteristics isSequential="false">
+        <loopCardinality>${nrOfLoops}</loopCardinality>
+      </multiInstanceLoopCharacteristics>
+    </userTask>
+    <exclusiveGateway id="RelEnrichGateway"></exclusiveGateway>
+    <userTask id="ReviewNM" name="Review NM" flowable:formFieldValidation="true"></userTask>
+    <userTask id="sid-5E9CC0D9-9910-4066-BC13-3C4E34347288" name="relationship Screen" flowable:formFieldValidation="true"></userTask>
+    <sequenceFlow id="sid-C79B6525-B2E6-403A-9B97-9FB21A07D0EA" sourceRef="startEvent1" targetRef="NewRelationshipRequest"></sequenceFlow>
+    <sequenceFlow id="flowNewRelReq" sourceRef="NewRelationshipRequest" targetRef="CreateRelationshipTask"></sequenceFlow>
+    <sequenceFlow id="flowBulkReq" sourceRef="CreateRelationshipTask" targetRef="SpawnRelationiTask"></sequenceFlow>
+    <sequenceFlow id="sid-D100C50B-47C0-4CDD-A42C-D6A14F38B27C" sourceRef="SpawnRelationiTask" targetRef="RelEnrichGateway"></sequenceFlow>
+    <sequenceFlow id="flowLobSubmits" name="LOB Submits" sourceRef="RelEnrichGateway" targetRef="ReviewNM">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[LOBSubmits]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flowNMSubmits" name="NM Submits" sourceRef="RelEnrichGateway" targetRef="sid-5E9CC0D9-9910-4066-BC13-3C4E34347288">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[NMSubmits]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_RelationshipCapture123">
+    <bpmndi:BPMNPlane bpmnElement="RelationshipCapture123" id="BPMNPlane_RelationshipCapture123">
+      <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+        <omgdc:Bounds height="30.0" width="30.0" x="15.0" y="148.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="NewRelationshipRequest" id="BPMNShape_NewRelationshipRequest">
+        <omgdc:Bounds height="51.0" width="284.0" x="120.0" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CreateRelationshipTask" id="BPMNShape_CreateRelationshipTask">
+        <omgdc:Bounds height="53.0" width="285.0" x="495.0" y="137.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SpawnRelationiTask" id="BPMNShape_SpawnRelationiTask">
+        <omgdc:Bounds height="83.0" width="110.5" x="840.0" y="121.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="RelEnrichGateway" id="BPMNShape_RelEnrichGateway">
+        <omgdc:Bounds height="40.0" width="40.0" x="756.25" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="ReviewNM" id="BPMNShape_ReviewNM">
+        <omgdc:Bounds height="80.0" width="100.0" x="900.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-5E9CC0D9-9910-4066-BC13-3C4E34347288" id="BPMNShape_sid-5E9CC0D9-9910-4066-BC13-3C4E34347288">
+        <omgdc:Bounds height="80.0" width="100.0" x="361.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flowNMSubmits" id="BPMNEdge_flowNMSubmits">
+        <omgdi:waypoint x="756.7226214921199" y="290.47262149212867"></omgdi:waypoint>
+        <omgdi:waypoint x="460.94999999994417" y="290.0682843472317"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-D100C50B-47C0-4CDD-A42C-D6A14F38B27C" id="BPMNEdge_sid-D100C50B-47C0-4CDD-A42C-D6A14F38B27C">
+        <omgdi:waypoint x="895.25" y="204.45"></omgdi:waypoint>
+        <omgdi:waypoint x="895.25" y="237.25"></omgdi:waypoint>
+        <omgdi:waypoint x="776.75" y="237.25"></omgdi:waypoint>
+        <omgdi:waypoint x="776.75" y="270.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flowLobSubmits" id="BPMNEdge_flowLobSubmits">
+        <omgdi:waypoint x="795.7493346832408" y="290.44500723589"></omgdi:waypoint>
+        <omgdi:waypoint x="899.9999999999831" y="290.1441558441559"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-C79B6525-B2E6-403A-9B97-9FB21A07D0EA" id="BPMNEdge_sid-C79B6525-B2E6-403A-9B97-9FB21A07D0EA">
+        <omgdi:waypoint x="44.949999660366665" y="163.5"></omgdi:waypoint>
+        <omgdi:waypoint x="119.99999999988029" y="163.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flowBulkReq" id="BPMNEdge_flowBulkReq">
+        <omgdi:waypoint x="779.9499999999961" y="163.2235693501455"></omgdi:waypoint>
+        <omgdi:waypoint x="839.999999999995" y="163.10708050436466"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flowNewRelReq" id="BPMNEdge_flowNewRelReq">
+        <omgdi:waypoint x="403.95" y="163.5"></omgdi:waypoint>
+        <omgdi:waypoint x="495.0" y="163.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
